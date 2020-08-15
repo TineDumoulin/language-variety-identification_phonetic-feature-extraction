@@ -13,7 +13,7 @@ from sklearn.metrics import classification_report, f1_score
 print('Step 1: defining the pipeline: tfidf_vectorizer + random forest classifier...')
 pipeline = Pipeline([
     ('tfidf', TfidfVectorizer(lowercase=False, analyzer='char')),
-    ('rf', RandomForestClassifier(random_state=42, verbose=1, n_jobs=3)),
+    ('rf', RandomForestClassifier(random_state=42, verbose=1, n_jobs=6)),
 ])
 
 # define grid
@@ -27,16 +27,6 @@ rf_max_depth = [10, 20, 30, 40, 50]
 rf_max_depth.append(None)
 rf_min_samples_split = [2, 5, 10, 15, 20]
 rf_min_samples_leaf = [1, 2, 5, 10, 15]
-
-'''# testing
-tfidf_ngram_range=[(1,2), (2,3)]
-
-rf_n_estimators = [500, 800]
-rf_max_features = ['auto']
-rf_max_depth = [10, 20]
-rf_max_depth.append(None)
-rf_min_samples_split = [2, 5]
-rf_min_samples_leaf = [1, 2]'''
 
 grid_param =   {'tfidf__ngram_range': tfidf_ngram_range,
                 'rf__n_estimators': rf_n_estimators, 
@@ -70,10 +60,7 @@ else:
     # saving the best model
     joblib.dump(search.best_estimator_, 'randomsearchcv_randomforest.pkl')
 
-# predict and report metrics
+# predict labels and report metrics
 y_pred = search.predict(X_test)
-
-print('F1-score: ', f1_score(y_test, y_pred, pos_label='pos'))
-
 cr = classification_report(y_test, y_pred)
 print(cr)
