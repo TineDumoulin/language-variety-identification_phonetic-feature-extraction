@@ -26,6 +26,7 @@ print()'''
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=0)
 
 # Vectorization: Bag of Words vs. TF-IDF
+# fitting and transforming the train data
 X_train_counts = count_vect.fit_transform(list(X_train))
 print('X train counts: ', X_train_counts.shape)
 
@@ -33,6 +34,7 @@ X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
 print('X train tfidf:  ', X_train_tfidf.shape)
 print()
 
+# transforming the test data
 X_test_counts = count_vect.transform(list(X_test))
 X_test_tfidf = tfidf_transformer.transform(X_test_counts)
 print('X test counts:  ', X_test_counts.shape)
