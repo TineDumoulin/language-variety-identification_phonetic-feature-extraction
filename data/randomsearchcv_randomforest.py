@@ -12,8 +12,8 @@ from sklearn.metrics import classification_report, f1_score
 # define pipeline: tfidf_vectorizer + random forest classifier
 print('Step 1: defining the pipeline: tfidf_vectorizer + random forest classifier...')
 pipeline = Pipeline([
-    ('tfidf', TfidfVectorizer(lowercase=False, analyzer='char')),
-    ('rf', RandomForestClassifier(random_state=42, verbose=1, n_jobs=6)),
+    ('tfidf', TfidfVectorizer(lowercase=False, analyzer='char', max_df=0.7)),
+    ('rf', RandomForestClassifier(random_state=42, verbose=1, n_jobs=3)),
 ])
 
 # define grid
@@ -49,7 +49,7 @@ if os.path.isfile('randomsearchcv_randomforest.pkl'):
 else:    
     print('Step 4: fitting randomized search grid...')
     t0 = time.time()
-    search = RandomizedSearchCV(pipeline, param_distributions=grid_param, verbose=5)
+    search = RandomizedSearchCV(pipeline, param_distributions=grid_param, verbose=5, cv=5, n_iter=10, random_state=42)
     search.fit(X_train, y_train)
 
     print(f"Fitting took {time.time() - t0:0.3f}s.")
