@@ -1,0 +1,51 @@
+
+pipeline = Pipeline([
+    ('tfidf', TfidfVectorizer(lowercase=False, analyzer='char', max_df=0.7)),
+    ('svm', SGDClassifier(loss='hinge', penalty='elasticnet', fit_intercept=True, class_weight='balanced'))
+    ])
+
+------------------------------------------------------------------------------------------------------------
+
+tfidf__ngram_range=[(1,2), (1,3), (1,4), (1,5), (1,6), (1,7)]
+
+svm__average = [True, False]
+svm__l1_ratio = [0.2, 0.4, 0.6, 0.8]
+svm__alpha = [0.00001, 0.001, 0.01, 0.1]
+
+------------------------------------------------------------------------------------------------------------
+
+RandomizedSearchCV(pipeline, param_distributions=grid_param, verbose=5, cv=5, n_iter=50, random_state=42)
+
+############################################################################################################
+Model with rank: 1
+Mean validation score: 0.809 (std: 0.004)
+Parameters: {'tfidf__ngram_range': (1, 7), 'svm__l1_ratio': 0.4, 'svm__average': False, 'svm__alpha': 1e-05}
+
+Model with rank: 2
+Mean validation score: 0.807 (std: 0.024)
+Parameters: {'tfidf__ngram_range': (1, 5), 'svm__l1_ratio': 0.8, 'svm__average': False, 'svm__alpha': 1e-05}
+
+Model with rank: 3
+Mean validation score: 0.779 (std: 0.010)
+Parameters: {'tfidf__ngram_range': (1, 2), 'svm__l1_ratio': 0.4, 'svm__average': False, 'svm__alpha': 1e-05}
+
+Model with rank: 4
+Mean validation score: 0.772 (std: 0.016)
+Parameters: {'tfidf__ngram_range': (1, 2), 'svm__l1_ratio': 0.8, 'svm__average': False, 'svm__alpha': 1e-05}
+
+Model with rank: 5
+Mean validation score: 0.770 (std: 0.011)
+Parameters: {'tfidf__ngram_range': (1, 2), 'svm__l1_ratio': 0.2, 'svm__average': False, 'svm__alpha': 1e-05}
+############################################################################################################
+
+Best parameters: {'tfidf__ngram_range': (1, 7), 'svm__l1_ratio': 0.4, 'svm__average': False, 'svm__alpha': 1e-05}
+
+              precision    recall  f1-score   support
+
+          NL       0.89      0.85      0.87     10762
+          VL       0.71      0.78      0.74      5240
+
+   micro avg       0.82      0.82      0.82     16002
+   macro avg       0.80      0.81      0.81     16002
+weighted avg       0.83      0.82      0.83     16002
+
